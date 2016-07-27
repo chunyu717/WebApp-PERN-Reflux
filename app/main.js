@@ -49,8 +49,8 @@ var Main = React.createClass({
         
         return (
             <div>
-                <div className="brand">Business Casual</div>
-                <div className="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div>
+                <div className="brand">CxN Boutique</div>
+                {/*<div className="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div>*/}
 
                 <nav className="navbar navbar-default" role="navigation">
                     <div className="container">
@@ -61,24 +61,24 @@ var Main = React.createClass({
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                             </button>
-                            <a className="navbar-brand" href="index.html">Business Casual</a>
+                            <a className="navbar-brand" href="index.html">CxN Boutique</a>
                         </div>
                        
                         
                         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul className="nav navbar-nav">
                                 <li>
-                                    <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '200px'}} onClick={ () => {this.setBlock('Home')} } >Home</Button>
+                                    <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('Home')} } >Home</Button>
                                 </li>
                                 <li>
                                      {/*<Link to='about'>about</Link>*/}
-                                     <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '200px'}} onClick={ () => {this.setBlock('About')} } >About</Button>
+                                     <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('About')} } >About</Button>
                                 </li>
                                 <li>
-                                  <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '200px'}} onClick={ () => {this.setBlock('Blog')} } >Blog</Button>
+                                  <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('Blog')} } >Products</Button>
                                 </li>
                                 <li>
-                                    <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '200px'}} onClick={ () => {this.setBlock('Contact')} } >Contact</Button>
+                                    <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('Contact')} } >Contact</Button>
                                 </li>
                             </ul>
                         </div>
@@ -91,7 +91,7 @@ var Main = React.createClass({
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12 text-center">
-                                <p>Copyright &copy; Your Website 2014</p>
+                                <p>Copyright &copy; CxN Boutique 2016</p>
                             </div>
                         </div>
                     </div>

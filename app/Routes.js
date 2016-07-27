@@ -13,27 +13,23 @@ import { Router , Route, Link , hashHistory, IndexRoute } from 'react-router';
 var ReactDOM = require('react-dom');
 
 var Main = require("./main");
-var about = require("./view/about");
-var TestTwo = require("./view/TestTwo");
-
+//var about = require("./view/about");
+//var TestTwo = require("./view/TestTwo");
 //var routes = (
 module.exports =  (
 	<Route path="/" >
 		<IndexRoute component={Main}/>
-		//<Route path="/about" component={about}/>
-		//<Route path="/pageb" component={TestTwo}/>
     </Route>
 );
 
 //ReactDOM.render(<Router history={hashHistory} >{routes}</Router>, document.getElementById('app')) 
 
-// React.render((
-//   <Router>
-//     <Route path="/" component={Main}>
-//       <Route path="PageA" component={TestOne}/>
-//       <Route path="PageB" component={TestTwo}/>
+// module.exports =  (
+// 	<Route path="/" >
+// 		<IndexRoute component={Main}/>
+// 		//<Route path="/about" component={about}/>
+// 		//<Route path="/pageb" component={TestTwo}/>
 //     </Route>
-//   </Router>
-// ), document.body)
+// );
 
 

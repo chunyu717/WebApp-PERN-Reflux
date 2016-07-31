@@ -8,10 +8,11 @@ import { Router , Route, Link , hashHistory } from 'react-router';
 
 var Button = require('react-bootstrap/lib/Button');
 var ButtonToolbar = require('react-bootstrap/lib/ButtonToolbar');
-var About = require('./view/about');
-var Home = require('./view/home.js');
-var Blog = require('./view/blog.js');
-var Contact = require('./view/contact.js');
+var About = require('./views/about');
+var Home = require('./views/home.js');
+var Blog = require('./views/blog.js');
+var Contact = require('./views/contact.js');
+import FacebookLogin from 'react-facebook-login';
 //import about from './view/about';
 
 var Main = React.createClass({
@@ -24,11 +25,11 @@ var Main = React.createClass({
     componentDidMount: function() {
 		this.setState({content: (<Home/>) }); 
     },
-    // _toggle() {
-    //     this.setState({
-    //         switch: !this.state.switch
-    //     });
-    // },
+
+    responseFacebook : function (response) {
+        console.log(response);
+    },
+   
     setBlock: function(page) {
         switch(page){
             case 'Home':
@@ -51,7 +52,17 @@ var Main = React.createClass({
             <div>
                 <div className="brand">CxN Boutique</div>
                 {/*<div className="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div>*/}
-
+                {/*<div>
+                    <FacebookLogin
+                        appId="102642933514210"
+                        autoLoad={true}
+                        fields="name,email,picture"
+                        callback={this.responseFacebook}
+                        cssClass="my-facebook-button-class"
+                        icon="fa-facebook" 
+                    />
+                    </div>
+                */}
                 <nav className="navbar navbar-default" role="navigation">
                     <div className="container">
                         <div className="navbar-header">
@@ -75,7 +86,7 @@ var Main = React.createClass({
                                      <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('About')} } >About</Button>
                                 </li>
                                 <li>
-                                  <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('Blog')} } >Products</Button>
+                                  <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('Blog')} } >Blog</Button>
                                 </li>
                                 <li>
                                     <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('Contact')} } >Contact</Button>

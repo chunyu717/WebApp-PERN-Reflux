@@ -8,7 +8,7 @@ import { Router , Route, Link , hashHistory } from 'react-router';
 
 var Button = require('react-bootstrap/lib/Button');
 var ButtonToolbar = require('react-bootstrap/lib/ButtonToolbar');
-import FacebookLogin from 'react-facebook-login';
+//import FacebookLogin from 'react-facebook-login';
 
 import { DateField, Calendar } from 'react-date-picker'
 
@@ -23,7 +23,7 @@ import { DateField, Calendar } from 'react-date-picker'
 //import TimePickerPanel from 'rc-time-picker/lib/module/Panel';
 //const timePickerElement = <TimePickerPanel locale={TimePickerLocale} />;
 
-var admin = React.createClass({
+var schedule = React.createClass({
     getInitialState: function() {
          return {
         //   switch: true,
@@ -36,30 +36,16 @@ var admin = React.createClass({
 
     responseFacebook : function (response) {
         console.log(response);
-        console.log(response.);
     },
-    
-    onStandaloneChange : function (value) {
-      console.log('onStandaloneChange', formatter.format(value));
-      console.log(value && formatter.format(value));
-    },
-
-    // onChange : function (dateString, { dateMoment, timestamp }) {
-    //       console.log(dateString)
-    //     },
-
-
 
     render() {
         
         //const now = new GregorianCalendar(zhCn);
         let date = '2017-04-24' ; 
         
-        
-        
         return (
             <div>
-                <div>
+                <div>{/*
                     <FacebookLogin
                         appId="102642933514210"
                         autoLoad={true}
@@ -67,17 +53,11 @@ var admin = React.createClass({
                         callback={this.responseFacebook}
                         cssClass="my-facebook-button-class"
                         icon="fa-facebook" 
-                    />
+                    />   
+                */}
                 </div>
-
-                <Calendar
-                  dateFormat="YYYY-MM-DD"
-                  date={date}
-                  onChange={this.onChange}
-                />
-                     
             </div>      
         );
     }
 });
-module.exports = admin;
+module.exports = schedule;

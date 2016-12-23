@@ -11,108 +11,153 @@ var ButtonToolbar = require('react-bootstrap/lib/ButtonToolbar');
 var About = require('./views/about');
 var Home = require('./views/home.js');
 var Blog = require('./views/blog.js');
+var Schedule = require('./views/schedule.js');
+
 var Contact = require('./views/contact.js');
-import FacebookLogin from 'react-facebook-login';
-//import about from './view/about';
+//import FacebookLogin from 'react-facebook-login';
 
 var Main = React.createClass({
     getInitialState: function() {
         return {
           switch: true,
-          content : (<Home/>)
+          login: false,
+          page: 'Home',
+          //content : (<Home/>)
         };
     },
+
     componentDidMount: function() {
-		this.setState({content: (<Home/>) }); 
+        var me = this;
+		this.setState({page: 'Home'}); 
+        setTimeout(function(){ 
+            FB.getLoginStatus(function(response) {
+                console.log(response)
+                if (response.status === 'connected') {
+                    me.setState({login: true}); 
+                  } else if (response.status === 'not_authorized') {
+                    // The person is logged into Facebook, but not your app.
+                    me.setState({login: false}); 
+                  } else {
+                    me.setState({login: false}); 
+                    // The person is not logged into Facebook, so we're not sure if
+                    // they are logged into this app or not.
+                  }
+            }); 
+        }, 3000);
     },
 
-    responseFacebook : function (response) {
-        console.log(response);
+    
+
+    componentWillUpdate: function() {
+       
     },
    
     setBlock: function(page) {
-        switch(page){
+        this.setState({page: page}) ;
+        // switch(page){
+        //     case 'Home':
+        //         this.setState({content: (<Home/>) }); 
+        //         break;
+        //     case 'About':
+        //         this.setState({content: (<About login={ this.state.login }/>) }); 
+        //         break;
+        //     case 'Schedule':
+        //         this.setState({content: (<Schedule/>) }); 
+        //         break;
+        //     case 'Contact':
+        //         this.setState({content: (<Contact/>) }); 
+        //         break;
+        // }
+    },
+    login: function() {
+        var me = this ; 
+        FB.login(function(response){
+          if (response.status === 'connected') {
+             me.setState({login: true}); 
+          } else if (response.status === 'not_authorized') {
+             me.setState({login: false}); 
+          } else {
+            me.setState({login: false}); 
+          }
+        });
+    },
+    logout: function() {
+        var me = this ; 
+        FB.logout(function(response) {
+            me.setState({login: false}); 
+        });
+    },
+
+    render() {
+        var me = this,loginIcon = {} ; 
+        loginIcon = this.state.login ? <i className="fa fa-user-circle">  Facebook登出</i> : <i className="fa fa-user-circle">  Facebook登入</i> ;
+        var content ; 
+        switch(this.state.page){
             case 'Home':
-                this.setState({content: (<Home/>) }); 
+                content = <Home/> ; 
                 break;
             case 'About':
-                this.setState({content: (<About/>) }); 
+                content = <About login={ this.state.login }/> ; 
                 break;
-            case 'Blog':
-                this.setState({content: (<Blog/>) }); 
+            case 'Schedule':
+                content = <About/> ; 
                 break;
             case 'Contact':
-                this.setState({content: (<Contact/>) }); 
+                content = <About/> ; 
                 break;
         }
-    },
-    render() {
         
         return (
-            <div>
-                <div className="brand">CxN Boutique</div>
-                {/*<div className="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div>*/}
-                {/*<div>
-                    <FacebookLogin
-                        appId="102642933514210"
-                        autoLoad={true}
-                        fields="name,email,picture"
-                        callback={this.responseFacebook}
-                        cssClass="my-facebook-button-class"
-                        icon="fa-facebook" 
-                    />
-                    </div>
-                */}
-                <nav className="navbar navbar-default" role="navigation">
-                    <div className="container">
+            <div> 
+                <nav className="navbar navbar-inverse">
+                    <div className="container-fluid">
                         <div className="navbar-header">
+                            {/*
                             <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                                 <span className="sr-only">Toggle navigation</span>
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                             </button>
-                            <a className="navbar-brand" href="index.html">CxN Boutique</a>
-                        </div>
-                       
+                            */}
+                            <a className="navbar-brand"  onClick={ () => {this.setBlock('Home')} } >宏昇盲人按摩</a>
+                        </div>              
                         
-                        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <div className="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
                             <ul className="nav navbar-nav">
                                 <li>
-                                    <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('Home')} } >Home</Button>
+                                    <a onClick={ () => {this.setBlock('About')} }>關於宏昇</a>
                                 </li>
                                 <li>
-                                     {/*<Link to='about'>about</Link>*/}
-                                     <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('About')} } >About</Button>
+                                    <a onClick={ () => {this.setBlock('Contact')} }>聯絡宏昇</a>
                                 </li>
                                 <li>
-                                  <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('Blog')} } >Blog</Button>
-                                </li>
-                                <li>
-                                    <Button bsStyle="link" bsSize="large" style={{fontSize: '30px', width: '150px', fontFamily: "Open Sans"}} onClick={ () => {this.setBlock('Contact')} } >Contact</Button>
+                                    <a onClick={ () => {this.setBlock('Schedule')} }>預約情形</a>
                                 </li>
                             </ul>
-                        </div>
+                            <ul className="nav navbar-nav navbar-right">
+                                <li><a onClick={ this.state.login ? () => {this.logout()} : () => {this.login()} }>{loginIcon}  </a></li>
+                                {/*<li>
+                                     <div style={{display:"inline-block", float: "right", padding: "10px 10px 0"}}>
+                                        {<div className="fb-like" data-share="true" data-width="30px" data-show-faces="false"></div>}
+                                        <div className="fb-login-button" data-max-rows="1" data-width="20px" data-size="small" data-show-faces="true" data-auto-logout-link="true"></div>
+                                    </div>
+                                </li>*/}
+                            </ul>
+                        </div>    
                     </div>
                 </nav>
-                
-                {this.state.content}
+                {content}
+               
 
-                <footer>
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-12 text-center">
-                                <p>Copyright &copy; CxN Boutique 2016</p>
-                            </div>
-                        </div>
+                <div style={{padding: "10px 0 10px"}}>
+                    <div className="col-lg-12 text-center">
+                        <p>Copyright &copy; Hosen Blind Massage 2016</p>
                     </div>
-                </footer>
+                </div>
+                
             </div>      
         );
     }
 });
 module.exports = Main;
-//React.render(<Main />, document.body);
-//ReactDOM.render(<Main />, document.body);
-//ReactDOM.render(<Main />, document.getElementById("app") );
-//ReactDOM.render(<Router history={hashHistory} routes={Routes} />, document.getElementById("app") );

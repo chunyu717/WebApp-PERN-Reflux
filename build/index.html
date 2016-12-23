@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <link href="/css/bootstrap.css" rel="stylesheet">
-    <link href="/css/business-casual.css" rel="stylesheet">
+    <!--<link href="/css/business-casual.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-social.css" rel="stylesheet">
 </head>
 
 <body>
@@ -17,12 +20,31 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="/lib/bootstrap.min.js"></script>
 
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '102642933514210',
+          xfbml      : true,
+          version    : 'v2.8'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+    
     <!-- Script to Activate the Carousel -->
     <script>
     $('.carousel').carousel({
         interval: 5000 //changes the speed
     })
     </script>
+    
     <!--
     <script> window.fbAsyncInit = function() { FB.init({ appId : '102642933514210', xfbml : true, version : 'v2.7' }); }; (function(d, s, id){ var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) {return;} js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/sdk.js"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
     -->

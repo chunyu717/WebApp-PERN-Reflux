@@ -12,8 +12,8 @@ var About = require('./views/about');
 var Home = require('./views/home.js');
 var Blog = require('./views/blog.js');
 var Schedule = require('./views/schedule.js');
-
 var Contact = require('./views/contact.js');
+var Product = require('./views/product.js');
 //import FacebookLogin from 'react-facebook-login';
 
 var Main = React.createClass({
@@ -21,8 +21,7 @@ var Main = React.createClass({
         return {
           switch: true,
           login: false,
-          page: 'Home',
-          //content : (<Home/>)
+          page: 'Home'
         };
     },
 
@@ -31,22 +30,17 @@ var Main = React.createClass({
 		this.setState({page: 'Home'}); 
         setTimeout(function(){ 
             FB.getLoginStatus(function(response) {
-                console.log(response)
+                //console.log(response)
                 if (response.status === 'connected') {
                     me.setState({login: true}); 
                   } else if (response.status === 'not_authorized') {
-                    // The person is logged into Facebook, but not your app.
                     me.setState({login: false}); 
                   } else {
                     me.setState({login: false}); 
-                    // The person is not logged into Facebook, so we're not sure if
-                    // they are logged into this app or not.
                   }
             }); 
         }, 3000);
     },
-
-    
 
     componentWillUpdate: function() {
        
@@ -54,20 +48,6 @@ var Main = React.createClass({
    
     setBlock: function(page) {
         this.setState({page: page}) ;
-        // switch(page){
-        //     case 'Home':
-        //         this.setState({content: (<Home/>) }); 
-        //         break;
-        //     case 'About':
-        //         this.setState({content: (<About login={ this.state.login }/>) }); 
-        //         break;
-        //     case 'Schedule':
-        //         this.setState({content: (<Schedule/>) }); 
-        //         break;
-        //     case 'Contact':
-        //         this.setState({content: (<Contact/>) }); 
-        //         break;
-        // }
     },
     login: function() {
         var me = this ; 
@@ -100,10 +80,13 @@ var Main = React.createClass({
                 content = <About login={ this.state.login }/> ; 
                 break;
             case 'Schedule':
-                content = <About/> ; 
+                content = <Schedule login={ this.state.login }/> ; 
                 break;
             case 'Contact':
-                content = <About/> ; 
+                content = <Contact login={ this.state.login }/> ; 
+                break;
+            case 'Product':
+                content = <Product login={ this.state.login }/> ; 
                 break;
         }
         
@@ -112,14 +95,6 @@ var Main = React.createClass({
                 <nav className="navbar navbar-inverse">
                     <div className="container-fluid">
                         <div className="navbar-header">
-                            {/*
-                            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                                <span className="sr-only">Toggle navigation</span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                            </button>
-                            */}
                             <a className="navbar-brand"  onClick={ () => {this.setBlock('Home')} } >宏昇盲人按摩</a>
                         </div>              
                         
@@ -133,6 +108,9 @@ var Main = React.createClass({
                                 </li>
                                 <li>
                                     <a onClick={ () => {this.setBlock('Schedule')} }>預約情形</a>
+                                </li>
+                                <li>
+                                    <a onClick={ () => {this.setBlock('Product')} }>產品</a>
                                 </li>
                             </ul>
                             <ul className="nav navbar-nav navbar-right">

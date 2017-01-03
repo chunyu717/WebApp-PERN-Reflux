@@ -1,21 +1,76 @@
 var React = require('react');
+var Reflux = require('reflux'),
+    ProductActions = require('../actions/ProductActions'),
+    ProductStore = require('../stores/ProductStore');
+var Item = require('./product/item');
 
 
 var product = React.createClass({
 
+    mixins: [
+        Reflux.listenTo(ProductStore, "onLoadResult")
+    ],
+    
     propTypes: {
-		product: React.PropTypes.object.isRequired
+        login: React.PropTypes.bool
 	},
 
+    getInitialState: function() {
+        return {
+          login: false,
+          items: {}
+        };
+    },
+
+    componentDidMount: function() {
+        var me = this;
+        this.setState({page: 'Home'}); 
+
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                me.setState({login: true}); 
+                ProductActions.load();
+              } else if (response.status === 'not_authorized') {
+                me.setState({login: false}); 
+              } else {
+                me.setState({login: false}); 
+              }
+        }); 
+    },
+
+    componentWillReceiveProps:function (/*nextProps*/) {
+        var me = this;
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                me.setState({login: true}); 
+                ProductActions.load();
+              } else if (response.status === 'not_authorized') {
+                me.setState({login: false}); 
+              } else {
+                me.setState({login: false}); 
+              }
+        }); 
+    },
+
+    onLoadResult: function (eventId, success, result) {
+        var me = this;
+        if(eventId === 'loadProducts' && success) {
+            //console.log(result) ; 
+            me.setState({items: result}); 
+        }
+
+        if(eventId === 'loadProducts' && !success) {
+            console.log(result) ; 
+        }
+    },
+
     render: function() {
+        var me = this ; 
+        var products = (me.state.login) ?  <Item items= {me.state.items}/> : <p> you should login in !</p> ; 
+
         return (
-            <div className="col-lg-12 text-center">
-                <img className="img-responsive img-border img-full" src="img/slide-3.jpg" alt=""/>
-                <h2>{this.props.product.name}
-                    <small>  {this.props.product.created_at}</small>
-                </h2>
-                <p>{this.props.product.long_description}</p>
-                <hr/>
+            <div>
+                {products}
             </div>
         );
     }

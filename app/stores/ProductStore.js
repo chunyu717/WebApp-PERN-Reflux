@@ -7,14 +7,14 @@ var ProductStore = Reflux.createStore({
 	load: function(params){
 		var me = this;
         $.ajax({
-            url: 'http://192.168.134.128:8888/api/getShoesProducts',
+            url: 'http://localhost:8888/api/getShoesProducts',
             method: 'GET',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json'
         }).done(function(returnData) {
-            me.trigger('load', returnData);
+            me.trigger('loadProducts', true, returnData);
         }).error(function(returnData){
-            me.trigger('errorLoad', returnData);
+            me.trigger('loadProducts', false, returnData);
         });
 	},
 });

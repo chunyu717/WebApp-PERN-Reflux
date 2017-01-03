@@ -6,7 +6,7 @@ var about = React.createClass({
     },
     
     componentDidMount: function() {
-        console.log(this.props.login);
+        //console.log(this.props.login);
     },
 
     componentWillReceiveProps: function(nextProps) {
@@ -28,7 +28,7 @@ var about = React.createClass({
                         </div>
                         <div className="col-md-6">
                             {/*<img style={{height: '400px'}} className="img-responsive img-border-left" src="img/slide-2.jpg" alt=""/> */}
-                            <iframe style={{width: '100%', height: '300px'}} src="https://www.youtube.com/embed/vf2pPneuoLg" frameborder="0" allowfullscreen></iframe>
+                            <iframe style={{width: '100%', height: '300px'}} src="https://www.youtube.com/embed/vf2pPneuoLg" frameBorder="0" allowFullScreen></iframe>
                         </div>
                         <div className="col-md-6">
                             <p style={{fontSize: '20px'}}>連續四年榮獲桃園優良視障按摩院的中壢宏昇按摩院，其實是一間個人工作室；按摩師張文政40歲才開始學按摩，如今擁有固定客源、固定收入，經營得有聲有色。</p>

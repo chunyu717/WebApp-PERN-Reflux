@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var server = http.createServer(app);
 
-app.use(express.static('dist'));
+app.use(express.static('build'));
 
 var session = require('client-sessions');
 app.use(session({

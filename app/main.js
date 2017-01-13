@@ -3,6 +3,7 @@
 'use strict';
 
 var React = require('react');
+var Reflux = require('reflux');
 var ReactDOM = require('react-dom');
 import { Router , Route, Link , hashHistory } from 'react-router';
 
@@ -14,14 +15,27 @@ var Blog = require('./views/blog.js');
 var Schedule = require('./views/schedule.js');
 var Contact = require('./views/contact.js');
 var Product = require('./views/product.js');
+
+var LoginModal = require('./views/loginModal.js');
+
+var StatisticsActions = require('./actions/StatisticsActions'),
+    StatisticsStore = require('./stores/StatisticsStore');
 //import FacebookLogin from 'react-facebook-login';
 
 var Main = React.createClass({
+
+    mixins: [
+        Reflux.listenTo(StatisticsStore, "onLoadResult")
+    ],
+
     getInitialState: function() {
         return {
           switch: true,
+          showModal: false,
           login: false,
-          page: 'Home'
+          page: 'Home',
+          reviewCount: 0,
+          userInfo: {}
         };
     },
 
@@ -30,9 +44,9 @@ var Main = React.createClass({
 		this.setState({page: 'Home'}); 
         setTimeout(function(){ 
             FB.getLoginStatus(function(response) {
-                //console.log(response)
+                console.log(response)
                 if (response.status === 'connected') {
-                    me.setState({login: true}); 
+                    me.setState({login: true, userInfo: response}); 
                   } else if (response.status === 'not_authorized') {
                     me.setState({login: false}); 
                   } else {
@@ -40,38 +54,91 @@ var Main = React.createClass({
                   }
             }); 
         }, 3000);
+        window.addEventListener('google-loaded',me.renderGoogleLoginButton);
+
+        StatisticsActions.reviewCountAddThenGet();
     },
 
     componentWillUpdate: function() {
        
     },
+
+    onLoadResult: function (eventId, success, result) {
+        var me = this;
+        if(eventId === 'reviewCountAddThenGet' && success) {
+            console.log(result);
+
+            me.setState({reviewCount: result,  reviewCount: result[0].review_count}); 
+        }
+
+        if(eventId === 'reviewCountAddThenGet' && !success) {
+            console.log(result) ; 
+        }
+    },
    
+    renderGoogleLoginButton: function() {
+        var me = this;
+        console.log('rendering google signin button')
+        gapi.signin2.render('g-signin2', {
+          'scope': 'https://www.googleapis.com/auth/plus.login',
+          'width': 200,
+          'height': 50,
+          'longtitle': true,
+          'theme': 'light',
+          'onsuccess': me.onSignIn
+        })
+    },
+
+    onSignIn: function(page) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+    },
+
     setBlock: function(page) {
         this.setState({page: page}) ;
     },
+
     login: function() {
         var me = this ; 
         FB.login(function(response){
-          if (response.status === 'connected') {
-             me.setState({login: true}); 
-          } else if (response.status === 'not_authorized') {
-             me.setState({login: false}); 
-          } else {
-            me.setState({login: false}); 
-          }
+            console.log(response)
+            if (response.status === 'connected') {
+                me.setState({login: true, userInfo: response}); 
+            } else if (response.status === 'not_authorized') {
+                me.setState({login: false}); 
+            } else {
+                me.setState({login: false}); 
+            }
         });
     },
     logout: function() {
         var me = this ; 
         FB.logout(function(response) {
-            me.setState({login: false}); 
+            me.setState({login: false, userInfo: {} }); 
         });
     },
 
+    open: function() {
+       this.refs.refLoginInForm.show();
+    },
+
+    close: function() {
+        this.refs.refLoginInForm.close();
+    },
+
     render() {
-        var me = this,loginIcon = {} ; 
-        loginIcon = this.state.login ? <i className="fa fa-user-circle">  Facebook登出</i> : <i className="fa fa-user-circle">  Facebook登入</i> ;
+        var me = this, loginIcon = {} ; 
         var content ; 
+        var imgSrc = '' ; 
+        if( me.state.userInfo.authResponse &&  me.state.userInfo.authResponse.userID){
+            imgSrc = 'http://graph.facebook.com/' + me.state.userInfo.authResponse.userID + '/picture?height=15' ; 
+        }
+
+        loginIcon = this.state.login ? <i><img src={imgSrc} />  Facebook登出</i> : <i className="fa fa-user-circle">  Facebook登入</i> ;
+        
         switch(this.state.page){
             case 'Home':
                 content = <Home/> ; 
@@ -93,6 +160,7 @@ var Main = React.createClass({
         return (
             <div> 
                 <nav className="navbar navbar-inverse">
+
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <a className="navbar-brand"  onClick={ () => {this.setBlock('Home')} } >宏昇盲人按摩</a>
@@ -110,10 +178,13 @@ var Main = React.createClass({
                                     <a onClick={ () => {this.setBlock('Schedule')} }>預約情形</a>
                                 </li>
                                 <li>
-                                    <a onClick={ () => {this.setBlock('Product')} }>產品</a>
+                                    <a onClick={ () => {this.setBlock('Product')} }>周邊產品</a>
                                 </li>
                             </ul>
                             <ul className="nav navbar-nav navbar-right">
+                                {/*<li><div className="g-signin2" data-onsuccess={this.onSignIn}></div></li>
+                                <li><a onClick={ this.state.login ? () => {this.logout()} : () => {me.open()} }>{loginIcon}  </a></li>*/}
+                                <li><a>累積瀏覽人次: {this.state.reviewCount}</a></li>
                                 <li><a onClick={ this.state.login ? () => {this.logout()} : () => {this.login()} }>{loginIcon}  </a></li>
                                 {/*<li>
                                      <div style={{display:"inline-block", float: "right", padding: "10px 10px 0"}}>
@@ -125,15 +196,14 @@ var Main = React.createClass({
                         </div>    
                     </div>
                 </nav>
+                
                 {content}
-               
-
-                <div style={{padding: "10px 0 10px"}}>
+                <div style={{padding: "30px 0 10px"}}>
                     <div className="col-lg-12 text-center">
                         <p>Copyright &copy; Hosen Blind Massage 2016</p>
                     </div>
                 </div>
-                
+                <LoginModal ref = "refLoginInForm" />
             </div>      
         );
     }

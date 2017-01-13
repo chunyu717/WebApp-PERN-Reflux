@@ -69,13 +69,43 @@ app.all('*', function(req, res,next) {
         res.sendStatus(200);
     }
     else {
-		//res.sendStatus(403);
-		//res.status(403).json({ success: false, data: 'gg'});
         next();
     }
 
 
 });
+
+/* */
+
+app.get('/api/reviewCountAddThenGet',function(request, response){ 
+	var pg = require('pg');
+	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
+
+	pg.connect(conString, function(err, client, done) {
+		if(err) {
+		  done();
+		  return response.status(500).json({ success: false, data: err});
+		}
+		
+		var results = [];
+		client.query("UPDATE statistics SET review_count=review_count +1", function(err, result) {
+			done();
+			if(err) {
+			  return response.status(500).json({ success: false, data: err});
+			}
+			client.query("SELECT * FROM statistics", function(err2, result2) {
+				done();
+				if(err2) {
+				  return response.status(500).json({ success: false, select: err2});
+				}
+				return response.json(result2.rows);
+			});
+			//response.json({ success: true, update : 'ok' }) ; 
+			//return response.json(result.rows);
+		});
+	});
+});
+
 
 app.post('/api/authenticate',function(request, response){ 
     var pg = require('pg');
@@ -142,9 +172,6 @@ app.post('/api/purchaseProduct',function(request, response){
 //************************Admin********************//
 
 app.get('/api/getOrders',function(request, response){ 
-
-	if( request.get('Authorization') !== 'Basic YWRtaW46bmluYTA3MTc=')
-		return response.status(403).json({ success: false, data: "adminOnly"});
 	
     var pg = require('pg');
 	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
@@ -167,9 +194,6 @@ app.get('/api/getOrders',function(request, response){
 });
 
 app.post('/api/removeOrder',function(request, response){ 
-
-	if( request.get('Authorization') !== 'Basic YWRtaW46bmluYTA3MTc=')
-		return response.status(403).json({ success: false, data: "adminOnly"});
 
 	var pg = require('pg');
 	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
@@ -268,10 +292,8 @@ function deleteFile(productId, callback) {
 				  }
 				  
 				}); 
-				//console.log('success');
 				return true;
 			}else{
-				//console.log('false');
 				return false;
 			}
 		  });
@@ -310,16 +332,6 @@ app.post('/api/removeProduct',function(request, response){
 		  });
 	});
 });
-
-function pad2(number, length) {
-   
-    var str = '' + number;
-    while (str.length < length) {
-        str = '0' + str;
-    }
-   
-    return str;
-}
 
 app.post('/api/addProduct',function(request, response){ 
 
@@ -389,48 +401,8 @@ app.post('/api/updateProduct',function(request, response){
 	});
 });
 
-/*
-app.post('/api/createUser',function(request, response){ 
-
-	if( request.get('Authorization') !== 'Basic YWRtaW46bmluYTA3MTc=')
-		return response.status(403).json({ success: false, data: "adminOnly"});
-	
-    var pg = require('pg');
-	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
-
-	pg.connect(conString, function(err, client, done) {
-		if(err) {
-		  done();
-		  console.log(err);
-		  return response.status(500).json({ success: false, data: err});
-		}
-		var username =   request.query.username ;
-		var password =   request.query.password ;
-		var email =   request.query.email ;
-		var address =   request.query.address ;
-		var mobile =   request.query.mobile ;
-		var results = [];
-		
-		var query = client.query("INSERT INTO hosen(username, password) VALUES (($1),($2),($3),($4),($5),($6),($7))", [username,password], function(err, result) {
-			done();
-			if(err) {
-			  return response.status(500).json({ success: false, data: err});	//console.error('error running query', err);
-			}
-			response.json({ create : 'ok' }) ; 
-		  });
-		
-	});
-});
-*/
 
 app.get('/api/getMembers',function(request, response){ 
-	/*
-	if(request.session.user !== 'admin')
-		return response.status(403).json({ success: false, data: "adminOnly"});
-	*/
-
-	if( request.get('Authorization') !== 'Basic YWRtaW46bmluYTA3MTc=')
-		return response.status(403).json({ success: false, data: "adminOnly"});
 	
     var pg = require('pg');
 	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
@@ -452,9 +424,6 @@ app.get('/api/getMembers',function(request, response){
 });
 
 app.post('/api/approveMember',function(request, response){ 
-
-	if( request.get('Authorization') !== 'Basic YWRtaW46bmluYTA3MTc=')
-		return response.status(403).json({ success: false, data: "adminOnly"});
 	
     var pg = require('pg');
 	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
@@ -478,9 +447,6 @@ app.post('/api/approveMember',function(request, response){
 });
 
 app.post('/api/removeMember',function(request, response){ 
-
-	if( request.get('Authorization') !== 'Basic YWRtaW46bmluYTA3MTc=')
-		return response.status(403).json({ success: false, data: "adminOnly"});
 	
 	var pg = require('pg');
 	
@@ -509,9 +475,6 @@ app.post('/api/removeMember',function(request, response){
 });
 
 app.get('/api/getApplies',function(request, response){ 
-
-	if( request.get('Authorization') !== 'Basic YWRtaW46bmluYTA3MTc=')
-		return response.status(403).json({ success: false, data: "adminOnly"});
 	
     var pg = require('pg');
 	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
@@ -538,6 +501,7 @@ app.post('/api/logout',function(request, response){
     request.session.reset();
 	response.json({ success: true, logout : 'ok' }) ; 
 });
+
 
 
 
@@ -644,7 +608,6 @@ app.get('/api/groupBuying',function(request, response){
 		return response.status(403).json({ success: false, data: '403'});
 	}
 });
-
 
 app.get('/api/getShoesProducts',function(request, response){ 
     var pg = require('pg');
@@ -792,8 +755,6 @@ var Base64 = {
 
 	
 server.listen(8888,"0.0.0.0",function(){
-//server.listen(8888,"122.116.108.112",function(){
-//server.listen(8888,"10.144.171.57",function(){
     console.log('server run at http://127.0.0.1:8888/ ');
 });
 

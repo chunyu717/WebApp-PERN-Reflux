@@ -8,6 +8,8 @@
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <link href="/css/bootstrap-social.css" rel="stylesheet">
+
+    <meta name="google-signin-client_id" content="637244607200-rtruqf0ckkbj37rt2lv9fnff9opmlm56.apps.googleusercontent.com">
 </head>
 
 <body>
@@ -20,6 +22,7 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="/lib/bootstrap.min.js"></script>
 
+    <!-- FB api load -->
     <script>
       window.fbAsyncInit = function() {
         FB.init({
@@ -37,7 +40,16 @@
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
     </script>
-    
+
+    <!-- google api load -->
+    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+    <script src="https://apis.google.com/js/platform.js?onload=triggerGoogleLoaded" async defer></script>
+    <script type="text/javascript">
+      function triggerGoogleLoaded() {
+        window.dispatchEvent(new Event('google-loaded'));
+      }
+    </script>
+
     <!-- Script to Activate the Carousel -->
     <script>
     $('.carousel').carousel({

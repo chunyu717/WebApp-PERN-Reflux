@@ -55,7 +55,6 @@ var product = React.createClass({
     onLoadResult: function (eventId, success, result) {
         var me = this;
         if(eventId === 'loadProducts' && success) {
-            //console.log(result) ; 
             me.setState({items: result}); 
         }
 
@@ -66,7 +65,7 @@ var product = React.createClass({
 
     render: function() {
         var me = this ; 
-        var products = (me.state.login) ?  <Item items= {me.state.items}/> : <p> you should login in !</p> ; 
+        var products = (me.state.login) ?  <Item items= {me.state.items}/> : <p> 登入才可顯示內容 !</p> ; 
 
         return (
             <div>

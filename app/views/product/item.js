@@ -3,10 +3,6 @@ var React = require('react');
 
 var Item = React.createClass({
 
- //    propTypes: {
- //        login: React.PropTypes.bool
-	// },
-
     componentDidMount: function() {
         
     },
@@ -24,16 +20,17 @@ var Item = React.createClass({
                 content.push(
                     <div className="col-sm-4 col-lg-4 col-md-4 col-centered">
                         <img className="img-responsive img-border img-full" src="img/slide-3.jpg" alt=""/>
-                        <div className="caption">
-                            <h4 className="pull-right">{me.props.items[i].pricing}</h4>
-                            <h4 className="pull-left">{me.props.items[i].pricing}</h4>
+                        <div className="row">
+                            <div style={{float: "left", marginLeft: '15px'}}><h4>{me.props.items[i].name} </h4></div>
+                            <div style={{float: "right", marginRight: '15px'}}><h4 >NT : {me.props.items[i].pricing}</h4></div>
                         </div>
+                        <h5>{me.props.items[i].long_description}</h5>
                     </div>) ; 
             }
         }
 
         return (
-        	<div>
+        	<div style={{padding: '20px'}}>
             {content}
             </div>
         );

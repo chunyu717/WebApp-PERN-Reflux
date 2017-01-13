@@ -5,7 +5,9 @@ var home = React.createClass({
         return (
             <div className="container">
                     <div className="row">
+
                         <div className="box">
+
                             <div className="col-lg-12 text-center">
                                 <div id="carousel-example-generic" className="carousel slide">
                                     <ol className="carousel-indicators hidden-xs">
@@ -13,7 +15,7 @@ var home = React.createClass({
                                         <li data-target="#carousel-example-generic" data-slide-to="1"></li>
                                         <li data-target="#carousel-example-generic" data-slide-to="2"></li>
                                     </ol>
-                                    <div className="carousel-inner" style={{ height: "550px"}}>
+                                    <div className="carousel-inner">
                                         <div className="item active">
                                             <img className="img-responsive img-rounded" src="/img/home-slide1.jpg" alt="" />
                                         </div>
@@ -55,6 +57,29 @@ var home = React.createClass({
                             </div>
                         </div>
                     </div>
+
+                    <div className="row">
+                        <hr />
+                        <h2 className="intro-text text-center">
+                            <strong>服務項目</strong>
+                        </h2>
+                        <hr />
+                        <div className="col-sm-6 col-lg-6 col-md-6 col-centered">
+                          <img className="img-rounded img-responsive img-border img-full" src="/img/home-slide1.jpg" alt="Generic placeholder image" />
+                          <div className="row">
+                            <div style={{float: "left", marginLeft: '15px'}}><h4>全身按摩</h4></div>
+                            <div style={{float: "right", marginRight: '15px'}}><h4 >NT$600</h4></div>
+                          </div>
+                        </div>
+                        <div className="col-sm-6 col-lg-6 col-md-6 col-centered">
+                          <img className="img-rounded img-responsive img-border img-full" src="/img/home-slide1.jpg" alt="Generic placeholder image" />
+                          <div className="row">
+                            <div style={{float: "left", marginLeft: '15px'}}><h4>半身按摩</h4></div>
+                            <div style={{float: "right", marginRight: '15px'}}><h4 >NT$400</h4></div>
+                          </div>
+                        </div>
+                    </div>
+
                 </div>
         );
     }

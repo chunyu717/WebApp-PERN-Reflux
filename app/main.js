@@ -66,14 +66,14 @@ var Main = React.createClass({
     onLoadResult: function (eventId, success, result) {
         var me = this;
         if(eventId === 'reviewCountAddThenGet' && success) {
-            console.log(result);
-
+            //console.log(result);
             me.setState({reviewCount: result,  reviewCount: result[0].review_count}); 
         }
 
         if(eventId === 'reviewCountAddThenGet' && !success) {
             console.log(result) ; 
         }
+
     },
    
     renderGoogleLoginButton: function() {
@@ -107,6 +107,7 @@ var Main = React.createClass({
             console.log(response)
             if (response.status === 'connected') {
                 me.setState({login: true, userInfo: response}); 
+                //StatisticsActions.loginUserLIntoDB();
             } else if (response.status === 'not_authorized') {
                 me.setState({login: false}); 
             } else {
@@ -177,9 +178,10 @@ var Main = React.createClass({
                                 <li>
                                     <a onClick={ () => {this.setBlock('Schedule')} }>預約情形</a>
                                 </li>
-                                <li>
+                                {/*<li>
                                     <a onClick={ () => {this.setBlock('Product')} }>周邊產品</a>
                                 </li>
+                                */}
                             </ul>
                             <ul className="nav navbar-nav navbar-right">
                                 {/*<li><div className="g-signin2" data-onsuccess={this.onSignIn}></div></li>

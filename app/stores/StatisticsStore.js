@@ -17,6 +17,19 @@ var StatisticsStore = Reflux.createStore({
             me.trigger('reviewCountAddThenGet', false, returnData);
         });
 	},
+    loginUserLIntoDB: function(params){
+        var me = this;
+        $.ajax({
+            url: 'http://localhost:8888/api/reviewCountAddThenGet',
+            method: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).done(function(returnData) {
+            me.trigger('loginUserLIntoDB', true, returnData);
+        }).error(function(returnData){
+            me.trigger('loginUserLIntoDB', false, returnData);
+        });
+    },
 });
 
 module.exports = StatisticsStore;

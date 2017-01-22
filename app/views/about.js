@@ -2,7 +2,7 @@ var React = require('react');
 
 var about = React.createClass({
     propTypes: {
-            login: React.PropTypes.string
+            login: React.PropTypes.bool
     },
     
     componentDidMount: function() {

@@ -22,7 +22,7 @@ var StatisticsActions = require('./actions/StatisticsActions'),
     StatisticsStore = require('./stores/StatisticsStore');
 //import FacebookLogin from 'react-facebook-login';
 
-var Main = React.createClass({
+var Navbar = React.createClass({
 
     mixins: [
         Reflux.listenTo(StatisticsStore, "onLoadResult")
@@ -44,7 +44,7 @@ var Main = React.createClass({
 		this.setState({page: 'Home'}); 
         setTimeout(function(){ 
             FB.getLoginStatus(function(response) {
-                console.log(response)
+                //console.log(response)
                 if (response.status === 'connected') {
                     me.setState({login: true, userInfo: response}); 
                   } else if (response.status === 'not_authorized') {
@@ -70,8 +70,8 @@ var Main = React.createClass({
             me.setState({reviewCount: result,  reviewCount: result[0].review_count}); 
         }
 
-        if(eventId === 'reviewCountAddThenGet' && !success) {
-            console.log(result) ; 
+        if(eventId === 'loginUserLIntoDB') {
+            //console.log(result) ; 
         }
 
     },
@@ -104,16 +104,23 @@ var Main = React.createClass({
     login: function() {
         var me = this ; 
         FB.login(function(response){
-            console.log(response)
+            //console.log(response)
             if (response.status === 'connected') {
                 me.setState({login: true, userInfo: response}); 
-                //StatisticsActions.loginUserLIntoDB();
+                FB.api( '/me?fields=id,first_name,last_name,picture,email,link,gender' , 
+                    function (response2) {
+                      if (response2 && !response2.error) {
+                        //console.log(response2);
+                        StatisticsActions.loginUserLIntoDB(response2);
+                      }
+                    }
+                );
             } else if (response.status === 'not_authorized') {
                 me.setState({login: false}); 
             } else {
                 me.setState({login: false}); 
             }
-        });
+        }, {scope: 'email, user_likes', return_scopes: true});
     },
     logout: function() {
         var me = this ; 
@@ -210,4 +217,4 @@ var Main = React.createClass({
         );
     }
 });
-module.exports = Main;
+module.exports = Navbar;

@@ -13,11 +13,9 @@ app.use(session({
   activeDuration: 5 * 60 * 1000,
 }));
 
-
 var bodyParser = require('body-parser');
-app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.json()); 						// for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
 
 var multer  = require('multer'); 
 var storage = multer.diskStorage({
@@ -33,19 +31,6 @@ var storage = multer.diskStorage({
 
 var upload = multer({ 
 	storage: storage
-	/*
-	dest: 'src/assets/images',
-	onFileUploadData: function (file/, data, req, res) {
-		
-	},
-	onFileUploadComplete: function (file, req, res) {
-	  var fileimage = file.name;
-	  req.middlewareStorage = {
-		fileimage : fileimage//,
-		//otherKey : otherValue
-	  }
-	}
-	*/
  }).single('file')
 
 var fs = require('fs');
@@ -67,15 +52,10 @@ app.all('*', function(req, res,next) {
 
     if ('OPTIONS' == req.method) {
         res.sendStatus(200);
-    }
-    else {
+    } else {
         next();
     }
-
-
 });
-
-/* */
 
 app.get('/api/reviewCountAddThenGet',function(request, response){ 
 	var pg = require('pg');
@@ -86,27 +66,60 @@ app.get('/api/reviewCountAddThenGet',function(request, response){
 		  done();
 		  return response.status(500).json({ success: false, data: err});
 		}
-		
+		//console.log('reviewCountAddThenGet'); 
 		var results = [];
-		client.query("UPDATE statistics SET review_count=review_count +1", function(err, result) {
+		client.query("UPDATE reviewcount SET review_count=review_count +1", function(err, result) {
 			done();
 			if(err) {
 			  return response.status(500).json({ success: false, data: err});
 			}
-			client.query("SELECT * FROM statistics", function(err2, result2) {
+			client.query("SELECT * FROM reviewcount", function(err2, result2) {
 				done();
 				if(err2) {
 				  return response.status(500).json({ success: false, select: err2});
 				}
 				return response.json(result2.rows);
 			});
-			//response.json({ success: true, update : 'ok' }) ; 
-			//return response.json(result.rows);
+		});
+	});
+});
+
+app.post('/api/loginUserLIntoDB',function(request, response){ 
+    var pg = require('pg');
+	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
+	
+	var id =   request.body.id ;
+	var email =   request.body.email ;
+	var first_name =   request.body.first_name ;
+	var last_name =   request.body.last_name ;
+	var gender =   request.body.gender ;
+	var link =   request.body.link ;
+	var login_at = new Date();
+
+	pg.connect(conString, function(err, client, done) {
+		if(err) {
+		  done();
+		  return response.status(500).json({ success: false, data: err});
+		}
+		var results = [];
+		client.query("INSERT INTO user_login(id, email, first_name, last_name, gender, link, login_at) VALUES ($1,$2,$3,$4,$5,$6,$7)", [id,email,first_name,last_name,gender,link,login_at], function(err, result) {
+			done();
+
+			if(err) {
+			  return response.status(500).json({ success: false, data: err});
+			}
+			
+			response.json({ success: true, insert : 'ok' }) ; 
+
 		});
 	});
 });
 
 
+
+//***************************************************************************************
+
+/*
 app.post('/api/authenticate',function(request, response){ 
     var pg = require('pg');
 	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
@@ -169,8 +182,10 @@ app.post('/api/purchaseProduct',function(request, response){
 	});
 });
 
+*/
 //************************Admin********************//
 
+/*
 app.get('/api/getOrders',function(request, response){ 
 	
     var pg = require('pg');
@@ -495,14 +510,11 @@ app.get('/api/getApplies',function(request, response){
 	});
 });
 
-//************************Admin********************//
 
 app.post('/api/logout',function(request, response){ 
     request.session.reset();
 	response.json({ success: true, logout : 'ok' }) ; 
 });
-
-
 
 
 app.post('/api/itemReview',function(request, response){ 
@@ -752,10 +764,10 @@ var Base64 = {
             return output;
         }
 };
-
+*/
 	
-server.listen(8888,"0.0.0.0",function(){
-    console.log('server run at http://127.0.0.1:8888/ ');
+server.listen(80,"0.0.0.0",function(){
+    console.log('server run at http://127.0.0.1:80/ ');
 });
 
 

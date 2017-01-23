@@ -10,12 +10,12 @@ import { Router , Route, Link , hashHistory, IndexRoute } from 'react-router';
 //import { Router, Route, IndexRoute, Link, IndexLink, browserHistory } from 'react-router'
 
 var ReactDOM = require('react-dom');
-var Main = require("./main");
+var Navbar = require("./navbar");
 var Admin = require("./views/admin");
 
 module.exports =  (
 	<Route path="/" >
-		<IndexRoute component={Main}/>
+		<IndexRoute component={Navbar}/>
 		<Route path="admin" component={Admin}/>
 
     </Route>

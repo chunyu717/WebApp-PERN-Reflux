@@ -52,7 +52,7 @@ var schedule = React.createClass({
 
     render() {
         var me = this;
-        var content = (me.state.login) ?  (<div className="container">
+        var content = me.state.login ?  (<div className="container">
                 <div className="row">
                     <div className="box">
                         <div>
@@ -63,10 +63,10 @@ var schedule = React.createClass({
                         </div>
                     </div>      
                 </div>
-            </div>) : <p> 登入才可顯示內容 !</p> ; 
+            </div>) : (<div className="text-center"><p> 登入才可顯示內容 !</p> </div>); 
 
         return (
-            <div style={{align: "center"}}>
+            <div>
                 {content}
             </div>
         );

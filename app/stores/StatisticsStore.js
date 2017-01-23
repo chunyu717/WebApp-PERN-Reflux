@@ -7,7 +7,7 @@ var StatisticsStore = Reflux.createStore({
 	reviewCountAddThenGet: function(params){
 		var me = this;
         $.ajax({
-            url: 'http://localhost:8888/api/reviewCountAddThenGet',
+            url: 'http://cxn.cloudevapp.com/api/reviewCountAddThenGet',
             method: 'GET',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json'
@@ -17,13 +17,14 @@ var StatisticsStore = Reflux.createStore({
             me.trigger('reviewCountAddThenGet', false, returnData);
         });
 	},
-    loginUserLIntoDB: function(params){
+    loginUserLIntoDB: function(loginUser){
         var me = this;
         $.ajax({
-            url: 'http://localhost:8888/api/reviewCountAddThenGet',
-            method: 'GET',
+            url: 'http://cxn.cloudevapp.com/api/loginUserLIntoDB',
+            method: 'POST',
             contentType: 'application/json; charset=utf-8',
-            dataType: 'json'
+            dataType: 'json',
+            data: JSON.stringify(loginUser)
         }).done(function(returnData) {
             me.trigger('loginUserLIntoDB', true, returnData);
         }).error(function(returnData){

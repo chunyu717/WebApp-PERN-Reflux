@@ -44,7 +44,7 @@ var home = React.createClass({
                             </div>
                         </div>
                     </div>
-
+                    {/*
                     <div className="row">
                         <div className="box">
                             <div className="col-lg-12">
@@ -57,7 +57,7 @@ var home = React.createClass({
                             </div>
                         </div>
                     </div>
-
+                    */}
                     <div className="row">
                         <hr />
                         <h2 className="intro-text text-center">

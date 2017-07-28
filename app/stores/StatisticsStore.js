@@ -7,7 +7,7 @@ var StatisticsStore = Reflux.createStore({
 	reviewCountAddThenGet: function(params){
 		var me = this;
         $.ajax({
-            url: 'http://cxn.cloudevapp.com/api/reviewCountAddThenGet',
+            url: 'http://122.116.214.159/api/reviewCountAddThenGet',
             method: 'GET',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json'
@@ -20,7 +20,7 @@ var StatisticsStore = Reflux.createStore({
     loginUserLIntoDB: function(loginUser){
         var me = this;
         $.ajax({
-            url: 'http://cxn.cloudevapp.com/api/loginUserLIntoDB',
+            url: 'http://122.116.214.159/api/loginUserLIntoDB',
             method: 'POST',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',

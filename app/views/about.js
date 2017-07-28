@@ -48,7 +48,7 @@ var about = React.createClass({
                             <hr/>
                         </div>
                         <div className="col-md-5 text-center">
-                            <img className="img-responsive" style={{height: '300px', margin: 'auto'}} src="img/chang.jpg" alt=""/>
+< img className = "img-responsive" style = {{height: '300px', margin: 'auto'}}src = "https://photos-5.dropbox.com/t/2/AADmOaF-T3HvdbG6TPQ3POFAwhMtn453U2UsRU3-eQYWMg/12/21998691/jpeg/32x32/3/1500544800/0/2/chang.jpg/EMajwhAY8oBOIAcoBw/DiTfirgCBQK7BN_h3_BMoiTfHjg3sIOzRYLKzAZFBsg?dl=0&size=2048x1536&size_mode=3" alt = "" />
                             <h3>張文政
                                 <small> </small>
                             </h3>

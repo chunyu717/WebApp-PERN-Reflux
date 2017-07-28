@@ -17,24 +17,24 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); 						// for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-var multer  = require('multer'); 
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'dist/assets/images')
-    },
-    filename: function (req, file, cb) {
-		var ext = require('path').extname(file.originalname);
-		ext = ext.length>1 ? ext : "." + require('mime').extension(file.mimetype);
-        cb(null, file.fieldname + '-' + Date.now() + ext);
-  }
-})
+// var multer  = require('multer'); 
+// var storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'dist/assets/images')
+//     },
+//     filename: function (req, file, cb) {
+// 		var ext = require('path').extname(file.originalname);
+// 		ext = ext.length>1 ? ext : "." + require('mime').extension(file.mimetype);
+//         cb(null, file.fieldname + '-' + Date.now() + ext);
+//   }
+// })
 
-var upload = multer({ 
-	storage: storage
- }).single('file')
+// var upload = multer({ 
+// 	storage: storage
+//  }).single('file')
 
-var fs = require('fs');
-var md5 = require('md5');
+// var fs = require('fs');
+// var md5 = require('md5');
 
 app.all('*', function(req, res,next) {
 

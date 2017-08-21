@@ -167,13 +167,18 @@ var Navbar = React.createClass({
         
         return (
             <div> 
-                <nav className="navbar navbar-inverse navbar-fixed-top">
+                <nav className="navbar navbar-inverse">
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <a className="navbar-brand"  onClick={ () => {this.setBlock('Home')} } >宏昇盲人按摩</a>
+                            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span className="icon-bar"></span>
+                                <span className="icon-bar"></span>
+                                <span className="icon-bar"></span> 
+                            </button>
                         </div>              
                         
-                        <div className="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+                        <div className="navbar-collapse collapse" id="myNavbar">
                             <ul className="nav navbar-nav">
                                 <li>
                                     <a onClick={ () => {this.setBlock('About')} }>關於宏昇</a>

@@ -22,6 +22,9 @@ var StatisticsActions = require('./actions/StatisticsActions'),
     StatisticsStore = require('./stores/StatisticsStore');
 //import FacebookLogin from 'react-facebook-login';
 
+var LoginActions = require('./actions/LoginActions'),
+    LoginStore = require('./stores/LoginStore');
+
 var Navbar = React.createClass({
 
     mixins: [
@@ -41,20 +44,21 @@ var Navbar = React.createClass({
 
     componentDidMount: function() {
         var me = this;
-		this.setState({page: 'Home'}); 
-        setTimeout(function(){ 
-            FB.getLoginStatus(function(response) {
-                //console.log(response)
-                if (response.status === 'connected') {
-                    me.setState({login: true, userInfo: response}); 
-                  } else if (response.status === 'not_authorized') {
-                    me.setState({login: false}); 
-                  } else {
-                    me.setState({login: false}); 
-                  }
-            }); 
-        }, 3000);
-        window.addEventListener('google-loaded',me.renderGoogleLoginButton);
+        this.setState({page: 'Home'}); 
+        
+        // setTimeout(function(){ 
+        //     FB.getLoginStatus(function(response) {
+        //         //console.log(response)
+        //         if (response.status === 'connected') {
+        //             me.setState({login: true, userInfo: response}); 
+        //           } else if (response.status === 'not_authorized') {
+        //             me.setState({login: false}); 
+        //           } else {
+        //             me.setState({login: false}); 
+        //           }
+        //     }); 
+        // }, 3000);
+        // window.addEventListener('google-loaded',me.renderGoogleLoginButton);
 
         StatisticsActions.reviewCountAddThenGet();
     },
@@ -76,26 +80,26 @@ var Navbar = React.createClass({
 
     },
    
-    renderGoogleLoginButton: function() {
-        var me = this;
-        console.log('rendering google signin button')
-        gapi.signin2.render('g-signin2', {
-          'scope': 'https://www.googleapis.com/auth/plus.login',
-          'width': 200,
-          'height': 50,
-          'longtitle': true,
-          'theme': 'light',
-          'onsuccess': me.onSignIn
-        })
-    },
+    // renderGoogleLoginButton: function() {
+    //     var me = this;
+    //     console.log('rendering google signin button')
+    //     gapi.signin2.render('g-signin2', {
+    //       'scope': 'https://www.googleapis.com/auth/plus.login',
+    //       'width': 200,
+    //       'height': 50,
+    //       'longtitle': true,
+    //       'theme': 'light',
+    //       'onsuccess': me.onSignIn
+    //     })
+    // },
 
-    onSignIn: function(page) {
-        var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-    },
+    // onSignIn: function(page) {
+    //     var profile = googleUser.getBasicProfile();
+    //     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    //     console.log('Name: ' + profile.getName());
+    //     console.log('Image URL: ' + profile.getImageUrl());
+    //     console.log('Email: ' + profile.getEmail());
+    // },
 
     setBlock: function(page) {
         this.setState({page: page}) ;
@@ -103,49 +107,53 @@ var Navbar = React.createClass({
 
     login: function() {
         var me = this ; 
-        FB.login(function(response){
-            //console.log(response)
-            if (response.status === 'connected') {
-                me.setState({login: true, userInfo: response}); 
-                FB.api( '/me?fields=id,first_name,last_name,picture,email,link,gender' , 
-                    function (response2) {
-                      if (response2 && !response2.error) {
-                        //console.log(response2);
-                        StatisticsActions.loginUserLIntoDB(response2);
-                      }
-                    }
-                );
-            } else if (response.status === 'not_authorized') {
-                me.setState({login: false}); 
-            } else {
-                me.setState({login: false}); 
-            }
-        }, {scope: 'email, user_likes', return_scopes: true});
+        // FB.login(function(response){
+        //     //console.log(response)
+        //     if (response.status === 'connected') {
+        //         me.setState({login: true, userInfo: response}); 
+        //         FB.api( '/me?fields=id,first_name,last_name,picture,email,link,gender' , 
+        //             function (response2) {
+        //               if (response2 && !response2.error) {
+        //                 //console.log(response2);
+        //                 StatisticsActions.loginUserLIntoDB(response2);
+        //               }
+        //             }
+        //         );
+        //     } else if (response.status === 'not_authorized') {
+        //         me.setState({login: false}); 
+        //     } else {
+        //         me.setState({login: false}); 
+        //     }
+        // }, {scope: 'email, user_likes', return_scopes: true});
+
+        document.location.href = '#/login';
     },
+
     logout: function() {
         var me = this ; 
-        FB.logout(function(response) {
-            me.setState({login: false, userInfo: {} }); 
-        });
+        // FB.logout(function(response) {
+        //     me.setState({login: false, userInfo: {} }); 
+        // });
+        LoginActions.logout();
     },
 
-    open: function() {
-       this.refs.refLoginInForm.show();
-    },
+    // open: function() {
+    //    this.refs.refLoginInForm.show();
+    // },
 
-    close: function() {
-        this.refs.refLoginInForm.close();
-    },
+    // close: function() {
+    //     this.refs.refLoginInForm.close();
+    // },
 
     render() {
-        var me = this, loginIcon = {} ; 
+        var me = this, loginMsg = {} ; 
         var content ; 
         var imgSrc = '' ; 
-        if( me.state.userInfo.authResponse &&  me.state.userInfo.authResponse.userID){
-            imgSrc = 'http://graph.facebook.com/' + me.state.userInfo.authResponse.userID + '/picture?height=15' ; 
-        }
+        // if( me.state.userInfo.authResponse &&  me.state.userInfo.authResponse.userID){
+        //     imgSrc = 'http://graph.facebook.com/' + me.state.userInfo.authResponse.userID + '/picture?height=15' ; 
+        // }
 
-        loginIcon = this.state.login ? <i><img src={imgSrc} />  Facebook登出</i> : <i className="fa fa-user-circle">  Facebook登入</i> ;
+        loginMsg = this.state.login ? <i>{/*<img src={imgSrc} />*/}  登出</i> : <i className="fa fa-user-circle">  登入</i> ;
         
         switch(this.state.page){
             case 'Home':
@@ -198,7 +206,7 @@ var Navbar = React.createClass({
                                 {/*<li><div className="g-signin2" data-onsuccess={this.onSignIn}></div></li>
                                 <li><a onClick={ this.state.login ? () => {this.logout()} : () => {me.open()} }>{loginIcon}  </a></li>*/}
                                 <li><a>累積瀏覽人次: {this.state.reviewCount}</a></li>
-                                <li><a onClick={ this.state.login ? () => {this.logout()} : () => {this.login()} }>{loginIcon}  </a></li>
+                                <li><a onClick={ this.state.login ? () => {this.logout()} : () => {this.login()} }>{loginMsg}  </a></li>
                                 {/*<li>
                                      <div style={{display:"inline-block", float: "right", padding: "10px 10px 0"}}>
                                         {<div className="fb-like" data-share="true" data-width="30px" data-show-faces="false"></div>}
@@ -213,7 +221,7 @@ var Navbar = React.createClass({
                 {content}
                 <div style={{padding: "30px 0 10px"}}>
                     <div className="col-lg-12 text-center">
-                        <p>Copyright &copy; Hosen Blind Massage 2016</p>
+                        <p>Copyright &copy; Hosen Massage 2016</p>
                     </div>
                 </div>
                 <LoginModal ref = "refLoginInForm" />

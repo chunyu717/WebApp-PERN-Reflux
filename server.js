@@ -57,6 +57,49 @@ app.all('*', function(req, res,next) {
     }
 });
 
+function checkAuth(req, res, next) {
+  if (!req.session.user_id) {
+    res.send('You are not authorized to view this page');
+  } else {
+    next();
+  }
+}
+
+
+app.post('/api/login',function(request, response){ 
+	var pg = require('pg');
+	var conString = "postgres://nodejs:nodejs@localhost/nodejs";
+
+	pg.connect(conString, function(err, client, done) {
+		if(err) {
+					done();
+					return response.status(500).json({ success: false, data: err});
+			}
+		var username =   request.body.username ;
+		var password =   request.body.password ;
+		var results = [];
+
+		client.query("SELECT password FROM hosen WHERE username=($1)", [username], function(err, result) {
+			done();
+			if(err) {
+				return response.status(500).json({ success: false, data: err});
+			}
+			//if ( result.rows[0] !== undefined && result.rows[0].password === md5(password) ){ .
+			//console.log(result.rows[0]) ;
+			if ( result.rows[0] !== undefined && result.rows[0].password === password ){ 
+				request.session.user = username;
+				response.json({ success: true, auth : 'ok', token: username }) ; 
+				//response.redirect('/admin');
+			}else{
+				request.session.reset();
+				response.json({ success: false, auth : 'fail' }) ; 
+			}
+
+			});
+	});
+});
+
+
 app.get('/api/reviewCountAddThenGet',function(request, response){ 
 	var pg = require('pg');
 	var conString = "postgres://nodejs:nodejs@localhost/nodejs";

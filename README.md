@@ -5,10 +5,13 @@ Hosen is  is a Web application to manage a massage store.
 
 # Quick start
 ```sh
-#npm updte
+#npm install
 ```
 ```sh
-#npm start
+#npm build
+```
+```sh
+#node server.js
 ```
 # Quick Overview
 

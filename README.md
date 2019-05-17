@@ -16,24 +16,14 @@ Hosen is  is a Web application to manage a massage store.
 # Quick Overview
 
 ### `Home`
-<p align='center'>
-<img src='https://s3.hicloud.net.tw/jerry/dontouch/public/hosen/home.jpg' width='600' alt='npm start'>
-</p>
+![image](https://github.com/kingbike/Hosen/blob/master/home.jpg)
 
 ### `About`
-<p align='center'>
-<img src='https://s3.hicloud.net.tw/jerry/dontouch/public/hosen/about.jpg' width='600' alt='npm start'>
-</p>
+![image](https://github.com/kingbike/Hosen/blob/master/about.jpg)
 
 ### `Map`
-<p align='center'>
-<img src='https://s3.hicloud.net.tw/jerry/dontouch/public/hosen/map.jpg' width='600' alt='npm start'>
-</p>
+![image](https://github.com/kingbike/Hosen/blob/master/map.jpg)
 
 ### `Facebook Login To show the schedule`
-<p align='center'>
-<img src='https://s3.hicloud.net.tw/jerry/dontouch/public/hosen/schedule1.jpg' width='600' alt='npm start'>
-</p>
-<p align='center'>
-<img src='https://s3.hicloud.net.tw/jerry/dontouch/public/hosen/schedule2.jpg' width='600' alt='npm start'>
-</p>
+![image](https://github.com/kingbike/Hosen/blob/master/schedule1.jpg)
+![image](https://github.com/kingbike/Hosen/blob/master/schedule2.jpg)
